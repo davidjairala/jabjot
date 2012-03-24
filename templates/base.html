@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      {% block title %}{% endblock %}
+      jabjot
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/static/css/bootstrap.css?{{ context.app_version }}" type="text/css" />
+    <link rel="stylesheet" href="/static/css/autocomplete/jquery.autocomplete.css?{{ context.app_version }}" type="text/css" />
+    <link rel='shortcut icon' href="/static/imgs/fav.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=750, user-scalable=yes" />
+    <meta name="MobileOptimized" content="750" />
+    <meta name="HandheldFriendly" content="true" />
+    <script type='text/javascript'>(function(a){_q=function(){return a;};$=function(f){typeof f==="function" && a.push(arguments);return $;};jQuery=$.ready=$;}([]));</script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <form method="get" action="/" onsubmit="goShortcut(); return false;" class="navbar-search pull-right">
+          <input type="text" name="sc" id="sc" value="{{ q }}" class="search-query" placeholder="Search" />
+        </form>
+        <ul class="nav nav-pills">
+          <li {% if context.btn == "frontpage" %}class="active"{% endif %}>
+              <a href="/">jabjot</a>
+            </li>
+            {% if context.is_logged %}
+              <li {% if context.btn == "notes" %}class="active"{% endif %}><a href="/notes">notes</a></li>
+              <li {% if context.btn == "images" %}class="active"{% endif %}><a href="/images">images</a></li>
+              <li {% if context.btn == "tags" %}class="active"{% endif %}><a href="/tags">tags</a></li>
+              <li {% if context.btn == "settings" %}class="active"{% endif %}><a href="/settings">settings</a></li>
+              <li {% if context.btn == "shortcuts" %}class="active"{% endif %}><a href="/tools#tools_shortcuts">shortcuts</a></li>
+              {% if context.is_admin %}
+                <li {% if context.btn == "admin" %}class="active"{% endif %}><a href="/admin">admin</a></li>
+              {% endif %}
+              <li {% if context.btn == "tools" %}class="active"{% endif %}><a href="/tools">tools</a></li>
+              <li {% if context.btn == "logout" %}class="active"{% endif %}><a href="/logout">logout</a></li>
+            {% else %}
+              <li {% if context.btn == "register" %}class="active"{% endif %}><a href="/register">register</a></li>
+              <li {% if context.btn == "login" %}class="active"{% endif %}><a href="/login">login</a></li>
+            {% endif %}
+        </ul>
+      </header>
+
+      <div id="content">
+        <div id="content_cont">
+          {% if context.is_logged and not context.user.hide_dropbox_msg and not context.user.dropbox_session %}
+            <div class="alert alert-warning">
+              <a class="close" data-dismiss="alert" href="/settings/hide_dropbox_msg">×</a>
+              You can synchronize your <strong>jabjot</strong> notes, to-dos and bookmarks to <strong>your Dropbox account</strong>.  <a href="/settings">Link your Dropbox account</a> or <a href="/settings/hide_dropbox_msg">hide this message</a>.
+            </div>
+          {% endif %}
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                {% if category == "notice" or category == "error" %}
+                  <div class="alert {% if category == "notice" %}alert-success{% else %}alert-error{% endif %}">
+                    {{ message }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <footer class="footer">
+        &copy;jabjot&reg;
+      </footer>
+    </div>
+    <div id="msg">msg</div>
+
+    <script src="/static/js/jquery-1.7.2.min.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/supersleight.plugin.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/jquery.bgiframe.min.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/jquery.centerinclient.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/autocomplete/jquery.autocomplete.pack.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/bootstrap.min.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/application.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script type="text/javascript">(function(i,s,q,l){for(q=window._q(),l=q.length;i<l;){$.apply(this,s.call(q[i++]));}window._q=undefined;}(0,Array.prototype.slice));</script>
+    <script type="text/javascript">var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-1958853-23']); _gaq.push(['_trackPageview']); (function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>
+  </body>
+</html>

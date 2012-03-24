@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Images -
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      <a href="/images">Images</a>
+    </h1>
+  </div>
+
+  <form method="get" action="/images" class="form-search">
+    <p>
+      <input type="text" name="q" value="{{ q }}" class="input-large search-query" />
+      <input type="submit" value="Search" class="btn" />
+    </p>
+  </form>
+
+  {% for image in images %}
+    <div class="image">
+      <div class="img">
+        <a href="/images/{{ image.id }}"><img src="{{image.path|get_tb}}" alt="" /></a>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-primary btn-mini" href="/images/{{ image.id }}">view</a>
+        <a class="btn btn-mini" href="/images/edit/{{ image.id }}">edit</a>
+        <a class="btn btn-danger btn-mini" href="/images/del/{{ image.id }}" onclick="return confirm('sure?');">del</a>
+      </div>
+    </div>
+  {% endfor %}
+
+  {% if p > 1 or results >= pagesize %}
+    <div class="pagination">
+      <ul>
+        {% if p > 1 %}
+          <li>
+            <a href="/images?p={{ p - 1}}&q={{ q }}">&larr; Previous</a>
+          </li>
+        {% endif %}
+        {% if results >= pagesize %}
+          <li>
+            <a href="/images?p={{ p + 1}}&q={{ q }}">Next &rarr;</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <br />
+  <div class="btn-group">
+    <a class="btn btn-primary" href="/images/new">Upload image</a>
+  </div>
+{% endblock %}

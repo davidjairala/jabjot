@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="hero-unit well">
+    <div class="btn-group pull-right">
+      <a class="btn btn-primary" href="/register">Register</a>
+      <a class="btn" href="/login">Login</a>
+    </div>
+
+    <div class="page-header">
+      <h1>
+        Welcome to {{ context.app_title }}!
+      </h1>
+    </div>
+
+    <h2>
+      What is it?
+    </h2>
+
+    <p>
+      {{ context.app_title }} is a quick and easy way to manage your notes,
+      bookmarks and to-dos, allowing you to navigate all your info easily with
+      keyboard shortcuts.
+    </p>
+
+    <p>
+      You can <strong>set up your account</strong> to syncronize your notes
+      with your <a href="https://www.dropbox.com/" target="_blank">Dropbox</a> account.  You can also import your bookmarks from
+      Delicious.
+    </p>
+
+    <h2>
+      What can I do with it?
+    </h2>
+
+    <p>
+      You can create notes, to-dos and bookmarks.  To make creating bookmarks easier, we even have a <a href="/tools#tools_bookmarklets">bookmarklet</a> you can use while browsing.
+    </p>
+
+    <p>
+      You can synchronize all your data with <a href="https://www.dropbox.com/" target="_blank">Dropbox</a> so your data is always synced and available for you, no matter what device you're on.
+    </p>
+
+    <p>
+      You can use the application using just your keyboard.  Press the "j" key to go to the next note, the "k" key to go to the previous note, "h" previous page, "l" next page, and much more.  Check out our <a href="/tools#tools_shortcuts">shortcuts</a>.
+    </p>
+
+    <p>
+      We also crawl all your bookmarks, so you can have an HTML scrape of anything you need right here in your app.  Mix that with the Dropbox integration and our easy way to email yourself notes, and baby, you've got a stew going!
+    </p>
+
+    <h2>
+      Getting started
+    </h2>
+
+    <p>
+      To start using {{ context.app_title }} you only need to <a
+        href="/register">register</a> or <a href="/login">login</a> if you already
+      have an account.  Registration is free and easy, and won't take longer than
+      a minute.
+    </p>
+{% endblock %}

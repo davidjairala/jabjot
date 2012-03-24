@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ note.title }} -
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% if note.kind == "todo" %}
+      <input type="checkbox" id="todo_done_{{ note.id }}" value="1" {% if note.done %}checked="checked"{% endif %} onclick="toggleNoteDone('{{ note.id }}');" />
+    {% endif %}
+    {% if note.kind == 'bookmark' and note.url and note.url != "" %}
+      <a href="{{ note.url }}" target="_blank">{{ note.title }}</a>
+    {% else %}
+      {{ note.title }}
+    {% endif %}
+  </h2>
+
+  <div id="note_object_id" class="note_object_id">{{ note.id }}</div>
+  <div id="note_kind" class="note_kind">{{ note.kind }}</div>
+  <div id="note_url" class="note_url">{% if note.url and note.url != "" %}{{ note.url }}{% endif %}</div>
+  <div id="next_note" class="next_note">{% if next_note %}{{ next_note.id }}{% endif %}</div>
+  <div id="prev_note" class="prev_note">{% if prev_note %}{{ prev_note.id }}{% endif %}</div>
+  <div id="is_owned" class="is_owned">{% if note.is_owned(context.user) %}1{% else %}0{% endif %}</div>
+
+  <div class="metadata">
+    {{ note.get_kind() }} &#183;
+    {{ note.get_private() }}
+    {% if note.kind == 'todo' %}
+      &#183;
+      {{ note.get_done() }}
+    {% endif %}
+    &#183;
+    Created:
+    {{ note.created_at|do_datetime }} &#183;
+    Updated:
+    {{ note.updated_at|do_datetime }}
+    {% if context.user.dropbox_session and context.user.dropbox_session != '' %}
+      &#183;
+      {% if note.synced %}
+        Synced
+      {% else %}
+        Not yet synced
+      {% endif %}
+    {% endif %}
+  </div>
+
+  {% if note.split_tags() %}
+    <div class="metadata tags">
+      <strong>Tags:</strong>
+      {% for tag in note.split_tags() %}
+        <a href="/notes?q=tag:{{ tag|urlencode }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <br />
+
+  {% if note.kind == 'bookmark' and note.url and note.url != "" %}
+    <p class="big">
+      <strong>URL:</strong>
+      <a href="{{ note.url }}" target="_blank">{{ note.url }}</a>
+    </p>
+  {% endif %}
+
+  {% if note.content and note.content != '' %}
+    <pre>{{ note.content }}</pre>
+    <br />
+
+    <div id="raw">
+      <textarea class="form_field ta_long" readonly="readonly">{{ note.content }}</textarea>
+    </div>
+  {% endif %}
+
+  {% if note.kind == 'bookmark' and note.scrape and note.scrape != '' %}
+    <div id="scrape" class="well">
+      <div class="hr"><!-- i --></div>
+      <div id="scrape_content"><!-- i --></div>
+      <div class="hr"><!-- i --></div>
+    </div>
+  {% endif %}
+  <br />
+
+  {% if not note.private %}
+    <p>
+      This note is public, to share it with someone, send them the following URL:
+      <br />
+      <input type="text" value="{{ context.app_url }}notes/{{ note.id }}" onclick="$(this).select();" readonly="readonly" />
+    </p>
+    <br />
+  {% endif %}
+
+  <div class="btn-group">
+    <a class="btn btn-primary" href="/notes" onclick="returnToIndex(); return false;">Back</a>
+    {% if note.content and note.content != '' %}
+      <a class="btn" href="#" onclick="toggleRaw(); return false;">Raw</a>
+    {% endif %}
+    <a class="btn" href="/notes/email/{{ note.id }}">Email</a>
+    {% if note.is_owned(context.user) %}
+      {% if note.kind == 'bookmark' and note.scrape and note.scrape != '' %}
+        <a class="btn" href="#" onclick="toggleScrape(); return false;">View Scrape</a>
+      {% endif %}
+      {% if context.user.dropbox_session and context.user.dropbox_session != '' %}
+        {% if note.synced %}
+          <a class="btn" href="/notes/resync/{{ note.id }}">Resync</a>
+        {% else %}
+          <a class="btn" href="/notes/resync/{{ note.id }}" onclick="return false;">Marked for resync</a>
+        {% endif %}
+      {% endif %}
+      <a class="btn" href="/notes/edit/{{ note.id }}">Edit</a>
+      <a class="btn btn-danger" href="/notes/del/{{ note.id }}" onclick="return confirm('sure?');">Delete</a>
+    {% endif %}
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      setSection('notes_view');
+    });
+  </script>
+{% endblock %}

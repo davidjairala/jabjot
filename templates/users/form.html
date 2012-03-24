@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if method == "edit" %}
+    Edit User -
+  {% else %}
+    New User -
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      <a href="/users">Users</a> -
+      {% if method == "edit" %}
+        Edit
+      {% else %}
+        New
+      {% endif %}
+    </h1>
+  </div>
+
+  {% if method == "edit" %}
+    <form method="post" action="/users/{{ method }}/{{ user.id }}">
+  {% else %}
+    <form method="post" action="/users/{{ method }}">
+  {% endif %}
+    <p>
+      Email:<br />
+      <input type="text" name="user[email]" value="{{ user.email }}" />
+    </p>
+    <p>
+      Username:<br />
+      <input type="text" name="user[username]" value="{{ user.username }}" />
+    </p>
+    <p>
+      Password:<br />
+      <input type="password" name="user[password]" value="{{ user.password }}" />
+    </p>
+    <p>
+      Active:<br />
+      <select name="user[active]">
+        <option value="yes" {% if user.active == "yes" %}selected="selected"{% endif %}>Yes</option>
+        <option value="no" {% if user.active == "no" %}selected="selected"{% endif %}>No</option>
+      </select>
+    </p>
+    <p>
+      Level:<br />
+      <select name="user[level]">
+        <option value="user" {% if user.level == "user" %}selected="selected"{% endif %}>User</option>
+        <option value="admin" {% if user.level == "admin" %}selected="selected"{% endif %}>Admin</option>
+      </select>
+    </p>
+    <p>
+      {% if method == "edit" %}
+        <inpu type="hidden" name="user_id" value="{{ user.id }}" />
+        <input type="submit" value="Edit" class="bold" />
+      {% else %}
+        <input type="submit" value="Create" class="bold" />
+      {% endif %}
+    </p>
+  </form>
+{% endblock %}

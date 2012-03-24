@@ -1,0 +1,6 @@
+# Config file for mongodb
+#dbpath = /var/www/db/
+dbpath = /Applications/mongo/db/
+bind_ip = 127.0.0.1
+auth = true
+#verbose = false

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+  View User -
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      <a href="/users">Users</a> -
+      View
+    </h1>
+  </div>
+
+  <p>
+    <strong>Username:</strong>
+    <br />
+    {{ user.username }}
+  </p>
+  <p>
+    <strong>Email:</strong>
+    <br />
+    <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+  </p>
+  <p>
+    <strong>Active:</strong>
+    <br />
+    {{ user.active }}
+  </p>
+  <p>
+    <strong>Level:</strong>
+    <br />
+    {{ user.level }}
+  </p>
+
+  {% if context.is_admin %}
+    <p>
+      <strong>Notes:</strong>
+
+      {{ notes|count }}
+    </p>
+
+    <div class="btn-group">
+      <a class="btn btn-primary" href="/users">back</a>
+      <a class="btn" href="/users/edit/{{ user.id }}">edit</a>
+      <a class="btn btn-danger" href="/users/del/{{ user.id }}" onclick="return confirm('sure?');">del</a>
+    </div>
+  {% endif %}
+{% endblock %}

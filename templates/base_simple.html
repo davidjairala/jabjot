@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>
+      {% block title %}{% endblock %}
+      jabjot
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="/static/css/bootstrap.css?{{ context.app_version }}" type="text/css" />
+    <link rel="stylesheet" href="/static/css/autocomplete/jquery.autocomplete.css?{{ context.app_version }}" type="text/css" />
+    <link rel='shortcut icon' href="/static/imgs/fav.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=400, user-scalable=yes" />
+    <meta name="MobileOptimized" content="400" />
+    <meta name="HandheldFriendly" content="true" />
+    <script type='text/javascript'>(function(a){_q=function(){return a;};$=function(f){typeof f==="function" && a.push(arguments);return $;};jQuery=$.ready=$;}([]));</script>
+  </head>
+  <body>
+    <div id="page-simple">
+      <div id="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              {% if category == "notice" or category == "error" %}
+                <div class="alert {% if category == "notice" %}alert-success{% else %}alert-error{% endif %}">
+                  {{ message }}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+      </div>
+      <footer>
+        <div>
+          <a href="http://jabjot.com/">jabjot</a>
+        </div>
+      </footer>
+    </div>
+    <script src="/static/js/jquery-1.7.2.min.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/supersleight.plugin.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/jquery.bgiframe.min.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/jquery.centerinclient.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/autocomplete/jquery.autocomplete.pack.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/bootstrap.min.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script src="/static/js/application.js?{{ context.app_version }}" type="text/javascript"></script>
+    <script type="text/javascript">(function(i,s,q,l){for(q=window._q(),l=q.length;i<l;){$.apply(this,s.call(q[i++]));}window._q=undefined;}(0,Array.prototype.slice));</script>
+  </body>
+</html>

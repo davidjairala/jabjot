@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Notes - p: {{ p }}
+  {% if q %}
+    - Searching: {{ q }}
+  {% endif %}
+  -
+{% endblock %}
+
+{% block content %}
+  <div class="btn-group pull-right">
+    <a class="btn btn-primary" href="/notes/new">New Note</a>
+  </div>
+
+  <div class="page-header">
+    <h1>
+      <a href="/notes">Notes</a> - p: {{ p }}
+    </h1>
+  </div>
+
+  {% if q %}
+    <h2>
+      Searching: {{ q }}
+    </h2>
+  {% endif %}
+
+  {% if notes %}
+    {% for note in notes %}
+      <div class="note">
+        <div class="metadata pull-right">
+          <span class="label {% if note.private %}label-important{% else %}label-success{% endif %}">{{ note.get_private() }}</span>
+          <span class="label label-info">{{ note.created_at|do_datetime }}</span>
+        </div>
+        <div class="title">
+          {% if note.kind == "todo" %}
+            <input type="checkbox" id="todo_done_{{ note.id }}" value="1" {% if note.done %}checked="checked"{% endif %} onclick="toggleNoteDone('{{ note.id }}');" />
+          {% endif %}
+          <a href="/notes/{{ note.id }}">{{ note.title }}</a>
+        </div>
+        <div class="item_object_id">{{ note.id }}</div>
+        <div class="item_kind">{{ note.kind }}</div>
+        <div class="item_url">{% if note.kind == 'bookmark' and note.url and note.url != "" %}{{ note.url }}{% endif %}</div>
+        <div class="metadata tags">
+          {% if note.split_tags() %}
+            {% for tag in note.split_tags() %}
+              <a class="label" href="/notes?q=tag:{{ tag|urlencode }}">{{ tag }}</a>
+            {% endfor %}
+          {% else %}
+            &nbsp;
+          {% endif %}
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-mini" href="/notes/edit/{{ note.id }}">edit</a>
+          <a class="btn btn-danger btn-mini" href="/notes/del/{{ note.id }}" onclick="return confirm('are you sure?');">del</a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="big">
+      {% if q %}
+        We couldn't find any notes.
+      {% else %}
+        You don't have any notes yet.
+      {% endif %}
+    </p>
+  {% endif %}
+
+  <br />
+  <div class="btn-group">
+    <a class="btn btn-primary" href="/notes/new">New Note</a>
+  </div>
+
+  {% if p > 1 or results >= pagesize %}
+    <div class="pagination">
+      <ul>
+        {% if p > 1 %}
+          <li>
+            <a href="/notes?p={{ p - 1}}&q={{ q }}">&larr; Previous</a>
+          </li>
+        {% endif %}
+        {% if results >= pagesize %}
+          <li>
+            <a href="/notes?p={{ p + 1}}&q={{ q }}">Next &rarr;</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      setSection('notes_index');
+      itirateNotes();
+      setPage({{ p }});
+      {% if results >= pagesize %}
+        setHasNextPage(true);
+      {% else %}
+        setHasNextPage(false);
+      {% endif %}
+      {% if notes %}
+        if(!preFocusNote()) {
+          focusNote(1, false);
+          setNoteIndex(1);
+        }
+      {% endif %}
+    });
+  </script>
+{% endblock %}

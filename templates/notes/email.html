@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Email: {{ note.title }} -
+{% endblock %}
+
+{% block content %}
+  <h1>
+    Email note
+  </h1>
+  
+  <h2>
+    <a href="/notes/{{ note.id }}">{{ note.title }}</a>
+  </h2>
+  
+  <form method="post" action="/notes/email/{{ note.id }}">
+    <p>
+      <strong>Email:</strong>
+      <input type="text" name="email" id="email" value="{{ context.user.email }}" onclick="$(this).select();" class="form_field" />
+    </p>
+  </form>
+  
+  <div class="buttons">
+    <a href="/notes/{{ note.id }}">Back</a>
+  </div>
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+      setSection('notes_email');
+      $("#email").select();
+    });
+  </script>
+{% endblock %}

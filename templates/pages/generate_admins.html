@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Generate admin -
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      <a href="/generate_admins">Generate admins</a>
+    </h1>
+  </div>
+
+  <form method="post" action="/generate_admins">
+    <p>
+      <strong>Name:</strong>
+      <br />
+      <input type="text" name="name" value="{{ name }}" class="form_field input-xxxlarge" />
+      <div class="small">
+        Singular, all lowercase.
+      </div>
+    </p>
+    <p>
+      <strong>Fields:</strong>
+      <br />
+      <input type="text" name="fields" value="{{ fields }}" class="form_field input-xxxlarge" />
+      <div class="small">
+        Comma separated, all lowercase.
+      </div>
+    </p>
+    <p>
+      <input type="submit" value="Generate" class="btn btn-primary" />
+    </p>
+  </form>
+{% endblock %}

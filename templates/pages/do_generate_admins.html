@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Generate admin -
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      <a href="/generate_admins">Generate admins</a>
+    </h1>
+  </div>
+
+  <h2>
+    {{ name }}
+  </h2>
+
+  <p>
+    <strong>Models:</strong>
+    <br />
+    <textarea class="input-textarea-large">{{ models_html }}</textarea>
+  </p>
+  <p>
+    <strong>Controller:</strong>
+    <br />
+    <textarea class="input-textarea-large">{{ controller_html }}</textarea>
+  </p>
+  <p>
+    <strong>form.html:</strong>
+    <br />
+    <textarea class="input-textarea-large">{{ form_html }}</textarea>
+  </p>
+  <p>
+    <strong>index.html:</strong>
+    <br />
+    <textarea class="input-textarea-large">{{ index_html }}</textarea>
+  </p>
+  <p>
+    <strong>view.html:</strong>
+    <br />
+    <textarea class="input-textarea-large">{{ view_html }}</textarea>
+  </p>
+{% endblock %}

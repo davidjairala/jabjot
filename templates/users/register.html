@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Register -
+{% endblock %}
+
+{% block content %}
+  <h2>
+    Register
+  </h2>
+
+  <p>
+    Registration is free and fast.  Just fill up the following form and that's it!
+  </p>
+
+  <form method="post" action="/register">
+    <p>
+      <strong>Email:</strong>
+      <br />
+      <input type="text" name="user[email]" value="{{ user.email }}" />
+    </p>
+
+    <p>
+      <strong>Username:</strong>
+      <br />
+      <input type="text" name="user[username]" value="{{ user.username }}" />
+    </p>
+
+    <p>
+      <strong>Password:</strong>
+      <br />
+      <input type="password" name="user[password]" value="{{ user.password }}" />
+    </p>
+
+    <p>
+      <input type="submit" value="Register" class="btn btn-primary" />
+    </p>
+  </form>
+{% endblock %}

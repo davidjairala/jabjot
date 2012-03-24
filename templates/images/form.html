@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if method == "edit" %}
+    Edit Image -
+  {% else %}
+    New Image -
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      <a href="/images">Images</a> -
+      {% if method == "edit" %}
+        Edit
+      {% else %}
+        Upload
+      {% endif %}
+    </h1>
+  </div>
+
+  {% if method == "edit" %}
+    <form method="post" action="/images/{{ method }}/{{ image.id }}" enctype="multipart/form-data">
+  {% else %}
+    <form method="post" action="/images/{{ method }}" enctype="multipart/form-data">
+  {% endif %}
+    <p>
+      Image:<br />
+      <input type="file" name="file_image" value="" class="form_field" />
+    </p>
+
+    <p>
+      Tags:<br />
+      <input type="text" name="image[tags]" value="{{ image.tags }}" id="image_tags" class="form_field input-xxxlarge" />
+    </p>
+
+    <div>
+      {% if method == "edit" %}
+        <input type="hidden" name="image_id" value="{{ image.id }}" />
+        <input class="btn btn-primary" type="submit" value="Edit" class="bold" />
+      {% else %}
+        <input type="submit" value="Create" class="btn btn-primary" />
+      {% endif %}
+    </p>
+  </form>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#image_tags").autocomplete("/notes/ac", {
+        width: 300,
+        selectFirst: false,
+        multiple: true,
+        delay: 10
+      });
+    });
+  </script>
+{% endblock %}

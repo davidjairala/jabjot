@@ -1,0 +1,21 @@
+{% extends "base_simple.html" %}
+
+{% block title %}
+  The note has been saved! -
+{% endblock %}
+
+{% block content %}
+	<h1>
+		The note has been saved!
+	</h1>
+
+	<p class="big notice">
+		The note has been successfully saved.
+	</p>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			window.close();
+		});
+	</script>
+{% endblock %}

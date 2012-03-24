@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Tools -
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+  	<h1>
+  		Tools
+  	</h1>
+  </div>
+
+  <div class="well">
+  	<h2 id="tools_bookmarklets">
+  		Bookmarklets
+  	</h2>
+
+  	<p>
+  		Drag and drop the following bookmarklets to your bookmarks bar to save notes or URLs quickly with {{ context.app_title }}.
+  	</p>
+
+  	<div class="btn-group">
+  		<a class="btn btn-primary" href="javascript:(function(){f='{{ context.app_url }}notes/new?bookmarklet=1&url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title);a=function(){if(!window.open(f,'{{ context.app_title }}','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=600'))location.href=f};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()" title="save url to {{ context.app_title }}">save to {{ context.app_title }}</a>
+  		<a class="btn" href="{{ context.app_url }}" title="my {{ context.app_title }}">my {{ context.app_title }}</a>
+  	</div>
+  </div>
+
+  <div class="well">
+  	<h2>
+  		Bookmarklet for iOS
+  	</h2>
+
+  	<p>
+  	  <strong>Step 1:</strong>
+  		To save bookmarks on your iOS device (iPhone, iPod Touch, iPad), click the following link:
+  	</p>
+
+  	<p class="btn-group">
+  		<a class="btn btn-primary" href="/tools#javascript:(function(){f='{{ context.app_url }}notes/new?bookmarklet=1&url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title);a=function(){if(!window.open(f,'{{ context.app_title }}','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=600'))location.href=f};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()" title="save url to {{ context.app_title }}">save to {{ context.app_title }}</a>
+  	</p>
+
+  	<p>
+  	 <strong>Step 2:</strong>
+  	 Save the link as a bookmark on your device.
+  	</p>
+
+  	<p>
+  	 <strong>Step 3:</strong>
+  	 Edit the bookmark, leaving only the following text in the URL:
+  	</p>
+
+  	<pre>javascript:(function(){f='{{ context.app_url }}notes/new?bookmarklet=1&url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title);a=function(){if(!window.open(f,'{{ context.app_title }}','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=600'))location.href=f};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()</pre>
+
+  	<p>
+  	 That is, delete everything before and including the '#' sign.
+  	</p>
+  </div>
+
+  <div class="well">
+  	<h2 id="tools_rss">
+  		Personal RSS
+  	</h2>
+
+  	{% if context.is_logged %}
+    	<p>
+    		We provide users with two personal RSS feeds.  The first one is your private (secret) RSS feed that shows all your notes:
+    	</p>
+
+    	<p class="btn-group">
+    	  <a class="btn btn-primary" href="/user/rss/private/{{ context.user.id }}_{{ context.user.rss_hash() }}">Private RSS feed</a>
+    	</p>
+
+    	<p>
+    	 The second one only shows your public notes, feel free to share it with anyone:
+    	</p>
+
+    	<p class="btn-group">
+    	  <a class="btn btn-primary" href="/user/rss/{{ context.user.id }}">Public RSS feed</a>
+    	</p>
+    {% else %}
+      <p>
+    		We provide users with two personal RSS feeds.  The first one is your private (secret) RSS feed that shows all your notes and a public one that only shows your public notes (for sharing).  To view your personal feed buttons, please <a href="/register">register</a> or <a href="/login">login</a> if you already have an account.
+    	</p>
+    {% endif %}
+  </div>
+
+  <div class="well">
+  	<h2 id="tools_api">
+  		API
+  	</h2>
+
+  	<p>
+  		{{ context.app_title }} also provides an easy to use API for applications that wish to retrieve or push data to the app.
+  	</p>
+
+  	<div class="btn-group">
+  	  <a class="btn btn-primary" href="/api">API page and instructions</a>
+  	  <a class="btn btn-info" href="/api/apps">My Apps</a>
+  	</div>
+  </div>
+
+  <div class="well">
+  	<h2 id="tools_shortcuts">
+  		Shortcuts
+  	</h2>
+
+  	<p>
+  		List of available shortcuts within the application:
+  	</p>
+
+  	<div class="big">
+  		{% include '_shortcuts.html' %}
+  	</div>
+  </div>
+{% endblock %}

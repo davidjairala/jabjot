@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Tags -
+{% endblock %}
+
+{% block content %}
+  <div class="pull-right">
+    <a class="btn btn-primary" href="/tags/new">New Tag</a>
+  </div>
+
+  <div class="page-header">
+    <h1>
+      <a href="/tags">Tags</a>
+    </h1>
+  </div>
+
+  <form method="get" action="/tags" class="form-search">
+    <p>
+      <input type="text" name="q" value="{{ q }}" class="input-large search-query" />
+      <input type="submit" value="Search" class="btn" />
+    </p>
+  </form>
+
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>name</th>
+        <th class="options_small">
+          <!-- i -->
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tag in tags %}
+        <tr>
+          <td>
+            <a href="/notes?q=tag:{{ tag.name|urlencode }}">{{tag.name}}</a>
+          </td>
+          <td class="btn-group">
+            <a class="btn btn-primary btn-mini" href="/tags/edit/{{ tag.id }}">edit</a>
+            <a class="btn btn-danger btn-mini" href="/tags/del/{{ tag.id }}" onclick="return confirm('sure?');">del</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <br />
+  <div>
+    <a class="btn btn-primary" href="/tags/new">New Tag</a>
+  </div>
+
+  {% if p > 1 or results >= pagesize %}
+    <div class="pagination">
+      <ul>
+        {% if p > 1 %}
+          <li>
+            <a href="/tags?p={{ p - 1}}&q={{ q }}">&larr; Previous</a>
+          </li>
+        {% endif %}
+        {% if results >= pagesize %}
+          <li>
+            <a href="/tags?p={{ p + 1}}&q={{ q }}">Next &rarr;</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
+{% endblock %}

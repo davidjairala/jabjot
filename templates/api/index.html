@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block title %}
+  API -
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      API
+    </h1>
+  </div>
+
+  <div class="well">
+    <h2>
+      Step 1: register your application
+    </h2>
+
+    <p>
+      The first step to start using the {{ context.app_title }} API is to <a href="/api/register">register your application</a>.
+    </p>
+
+    <p>
+      Once you have registered your application, you will receive an <strong>Application Key</strong> which you will use to identify yourself with the API on every call you make.  You can view all your apps and your app keys in the <a href="/api/apps">API Apps page</a>.
+    </p>
+  </div>
+
+  <div class="well">
+    <h2>
+      Step 2: make the API call
+    </h2>
+
+    <p>
+      Next you need to select the API call you want to use and construct the request as needed.  Remember to send all parameters as UTF-8 encoded strings.
+    </p>
+
+    <div class="hr"><!-- i --></div>
+
+    <p>
+      <strong>Get a user's notes:</strong>
+      <br />
+      <em>Returns 20 notes from a user, starting at start_index offset.</em>
+      <br />
+      {{ context.app_url }}api/notes?user=[username]&amp;password=[password]&amp;app_key=[application_key]&amp;start_index=[start_index]
+      <ul>
+        <li>
+          <strong>user:</strong> the user's username
+        </li>
+        <li>
+          <strong>password:</strong> the user's password
+        </li>
+        <li>
+          <strong>app_key:</strong> your application's application key, procured in step 1
+        </li>
+        <li>
+          <strong>start_index:</strong> the starting index offset of the notes, if not present will default to 0
+        </li>
+      </ul>
+      <br />
+      If successful, returns a JSON list of the user's notes.  If not, can return the following error strings:
+      <ul>
+        <li><strong>error_no_params:</strong> not enough parameters.</li>
+        <li><strong>error_app_not_found:</strong> app_key didn't match any apps.</li>
+        <li><strong>error_user_not_found:</strong> username and password didn't match any users.</li>
+      </ul>
+    </p>
+
+    <div class="hr"><!-- i --></div>
+
+    <p>
+      <strong>Post a note:</strong>
+      <br />
+      <em>Posts a note to the user's list.</em>
+      <br />
+      {{ context.app_url }}api/notes/new
+      <br />
+      In adition, you must send the following parameters via POST:
+      <ul>
+        <li>
+          <strong>user:</strong> the user's username
+        </li>
+        <li>
+          <strong>password:</strong> the user's password
+        </li>
+        <li>
+          <strong>app_key:</strong> your application's application key, procured in step 1
+        </li>
+        <li>
+          <strong>title:</strong> the note's title
+        </li>
+        <li>
+          <strong>content:</strong> (optional) the note's content
+        </li>
+        <li>
+          <strong>kind:</strong> the note's kind, can be either "note", "bookmark", "todo"
+        </li>
+        <li>
+          <strong>private:</strong> wether the note is private or public, "0" for public, "1" for private
+        </li>
+        <li>
+          <strong>done:</strong> (optional) determines if a to-do's been completed.  "0" for not yet completed, "1" for completed.  Defaults to "0".
+        </li>
+        <li>
+          <strong>url:</strong> (optional) a bookmark's URL.
+        </li>
+        <li>
+          <strong>tags:</strong> (optional) a note's tags, comma separated.
+        </li>
+      </ul>
+      <br />
+      If successful, returns a JSON representation of the note.  If not, can return the following error strings:
+      <ul>
+        <li><strong>error_no_params:</strong> not enough parameters.</li>
+        <li><strong>error_app_not_found:</strong> app_key didn't match any apps.</li>
+        <li><strong>error_user_not_found:</strong> username and password didn't match any users.</li>
+        <li><strong>error_no_post:</strong> no post params.</li>
+        <li><strong>error_wrong_kind:</strong> kind parameter was wrong, must be "note", "todo", "bookmark".</li>
+      </ul>
+    </p>
+
+    <div class="hr"><!-- i --></div>
+
+    <p>
+      <strong>Edit a note:</strong>
+      <br />
+      <em>Edits a user's note.</em>
+      <br />
+      {{ context.app_url }}api/notes/edit
+      <br />
+      In adition, you must send the following parameters via POST:
+      <ul>
+        <li>
+          <strong>user:</strong> the user's username
+        </li>
+        <li>
+          <strong>password:</strong> the user's password
+        </li>
+        <li>
+          <strong>app_key:</strong> your application's application key, procured in step 1
+        </li>
+        <li>
+          <strong>id:</strong> the note's id
+        </li>
+        <li>
+          <strong>title:</strong> the note's title
+        </li>
+        <li>
+          <strong>content:</strong> (optional) the note's content
+        </li>
+        <li>
+          <strong>kind:</strong> the note's kind, can be either "note", "bookmark", "todo"
+        </li>
+        <li>
+          <strong>private:</strong> wether the note is private or public, "0" for public, "1" for private
+        </li>
+        <li>
+          <strong>done:</strong> (optional) determines if a to-do's been completed.  "0" for not yet completed, "1" for completed.  Defaults to "0".
+        </li>
+        <li>
+          <strong>url:</strong> (optional) a bookmark's URL.
+        </li>
+        <li>
+          <strong>tags:</strong> (optional) a note's tags, comma separated.
+        </li>
+      </ul>
+      <br />
+      If successful, returns a JSON representation of the note.  If not, can return the following error strings:
+      <ul>
+        <li><strong>error_no_params:</strong> not enough parameters.</li>
+        <li><strong>error_app_not_found:</strong> app_key didn't match any apps.</li>
+        <li><strong>error_user_not_found:</strong> username and password didn't match any users.</li>
+        <li><strong>error_no_post:</strong> no post params.</li>
+        <li><strong>error_wrong_kind:</strong> kind parameter was wrong, must be "note", "todo", "bookmark".</li>
+        <li><strong>error_note_not_found:</strong> the note hasn't been found.</li>
+      </ul>
+    </p>
+
+    <div class="hr"><!-- i --></div>
+
+    <p>
+      <strong>Delete a note:</strong>
+      <br />
+      <em>Deletes a user's note.</em>
+      <br />
+      {{ context.app_url }}api/notes/del
+      <br />
+      In adition, you must send the following parameters via POST:
+      <ul>
+        <li>
+          <strong>user:</strong> the user's username
+        </li>
+        <li>
+          <strong>password:</strong> the user's password
+        </li>
+        <li>
+          <strong>app_key:</strong> your application's application key, procured in step 1
+        </li>
+        <li>
+          <strong>id:</strong> the note's id
+        </li>
+      </ul>
+      <br />
+      If successful, returns a JSON the string "ok".  If not, can return the following error strings:
+      <ul>
+        <li><strong>error_no_params:</strong> not enough parameters.</li>
+        <li><strong>error_app_not_found:</strong> app_key didn't match any apps.</li>
+        <li><strong>error_user_not_found:</strong> username and password didn't match any users.</li>
+        <li><strong>error_no_post:</strong> no post params.</li>
+        <li><strong>error_wrong_kind:</strong> kind parameter was wrong, must be "note", "todo", "bookmark".</li>
+        <li><strong>error_note_not_found:</strong> the note hasn't been found.</li>
+      </ul>
+    </p>
+
+    <div class="hr"><!-- i --></div>
+
+    <p>
+      <strong>Get a user's tags:</strong>
+      <br />
+      <em>Returns 20 tags from a user, starting at start_index offset.</em>
+      <br />
+      {{ context.app_url }}api/tags?user=[username]&amp;password=[password]&amp;app_key=[application_key]&amp;start_index=[start_index]
+      <ul>
+        <li>
+          <strong>user:</strong> the user's username
+        </li>
+        <li>
+          <strong>password:</strong> the user's password
+        </li>
+        <li>
+          <strong>app_key:</strong> your application's application key, procured in step 1
+        </li>
+        <li>
+          <strong>start_index:</strong> the starting index offset of the tags, if not present will default to 0
+        </li>
+      </ul>
+      <br />
+      If successful, returns a JSON list of the user's tags.  If not, can return the following error strings:
+      <ul>
+        <li><strong>error_no_params:</strong> not enough parameters.</li>
+        <li><strong>error_app_not_found:</strong> app_key didn't match any apps.</li>
+        <li><strong>error_user_not_found:</strong> username and password didn't match any users.</li>
+      </ul>
+    </p>
+
+    <div class="hr"><!-- i --></div>
+
+    <p>
+      <strong>Autocomplete user's tags:</strong>
+      <br />
+      <em>Returns at most 5 tags from a user, based on a query, for autocompleting user tag writing.</em>
+      <br />
+      {{ context.app_url }}api/tags_ac?user=[username]&amp;password=[password]&amp;app_key=[application_key]&amp;query=[query]
+      <ul>
+        <li>
+          <strong>user:</strong> the user's username
+        </li>
+        <li>
+          <strong>password:</strong> the user's password
+        </li>
+        <li>
+          <strong>app_key:</strong> your application's application key, procured in step 1
+        </li>
+        <li>
+          <strong>query:</strong> the query to search the tags
+        </li>
+      </ul>
+      <br />
+      If successful, returns a JSON list of the user's tags.  If not, can return the following error strings:
+      <ul>
+        <li><strong>error_no_params:</strong> not enough parameters.</li>
+        <li><strong>error_app_not_found:</strong> app_key didn't match any apps.</li>
+        <li><strong>error_user_not_found:</strong> username and password didn't match any users.</li>
+        <li><strong>error_empty_query:</strong> empty query string.</li>
+      </ul>
+    </p>
+  </div>
+{% endblock %}

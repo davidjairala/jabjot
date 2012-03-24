@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+  API - Test Delete Note -
+{% endblock %}
+
+{% block content %}
+  <h1>
+    <a href="/api">API</a>
+  </h1>
+  
+  <h2>
+    Test Delete Note
+  </h2>
+  
+  <form method="post" action="/api/notes/del">
+    <p>
+      user:
+      <br />
+      <input class="form_field" type="text" name="user" value="" />
+    </p>
+    
+    <p>
+      password:
+      <br />
+      <input class="form_field" type="text" name="password" value="" />
+    </p>
+    
+    <p>
+      app_key:
+      <br />
+      <input class="form_field" type="text" name="app_key" value="" />
+    </p>
+    
+    <p>
+      id:
+      <br />
+      <input class="form_field" type="text" name="id" value="" />
+    </p>
+    
+    <p>
+      <input class="form_field" type="submit" value="Test!">
+    </p>
+  </form>
+{% endblock %}

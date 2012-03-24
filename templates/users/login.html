@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Login -
+{% endblock %}
+
+{% block content %}
+  <h2>
+    Login
+  </h2>
+
+  <form method="post" action="/login">
+    <p>
+      Username:<br />
+      <input type="text" name="username" value="" />
+    </p>
+
+    <p>
+      Password:<br />
+      <input type="password" name="password" value="" />
+    </p>
+
+    <p>
+      <input type="submit" value="Login" class="btn btn-primary" />
+    </p>
+  </form>
+  <br />
+
+  <div class="hr"><!-- i --></div>
+
+  <h2>
+    Don't have an account yet?
+  </h2>
+
+  <p>
+    <a class="btn" href="/register">Sign up</a>
+  </p>
+
+  <p>
+    Regististration is free, quick and easy!
+  </p>
+{% endblock %}

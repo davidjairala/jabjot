@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}
+  API - Test New Note -
+{% endblock %}
+
+{% block content %}
+  <h1>
+    <a href="/api">API</a>
+  </h1>
+  
+  <h2>
+    Test New Note
+  </h2>
+  
+  <form method="post" action="/api/notes/new">
+    <p>
+      user:
+      <br />
+      <input class="form_field" type="text" name="user" value="" />
+    </p>
+    
+    <p>
+      password:
+      <br />
+      <input class="form_field" type="text" name="password" value="" />
+    </p>
+    
+    <p>
+      app_key:
+      <br />
+      <input class="form_field" type="text" name="app_key" value="" />
+    </p>
+    
+    <p>
+      title:
+      <br />
+      <input class="form_field" type="text" name="title" value="" />
+    </p>
+    
+    <p>
+      content:
+      <br />
+      <input class="form_field" type="text" name="content" value="" />
+    </p>
+    
+    <p>
+      kind:
+      <br />
+      <input class="form_field" type="text" name="kind" value="" />
+    </p>
+    
+    <p>
+      private:
+      <br />
+      <input class="form_field" type="text" name="private" value="" />
+    </p>
+    
+    <p>
+      done:
+      <br />
+      <input class="form_field" type="text" name="done" value="" />
+    </p>
+    
+    <p>
+      url:
+      <br />
+      <input class="form_field" type="text" name="url" value="" />
+    </p>
+    
+    <p>
+      tags:
+      <br />
+      <input class="form_field" type="text" name="tags" value="" />
+    </p>
+    
+    <p>
+      <br />
+      <input class="form_field" type="submit" value="Test!">
+    </p>
+  </form>
+{% endblock %}

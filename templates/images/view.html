@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+  View Image -
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      <a href="/images">Image</a> -
+      View
+    </h1>
+  </div>
+
+  <div class="image">
+    <a href="{{ image.get_url() }}" title="Click to view full size"><img src="{{ image.path|get_tb_big }}" alt="" /></a>
+  </div>
+
+  {% if image.split_tags() %}
+    <div class="metadata tags">
+      <strong>Tags:</strong>
+      {% for tag in image.split_tags() %}
+        <a href="/images?q={{ tag|urlencode }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="metadata">
+    <strong>Created:</strong>
+    {{ image.created_at|do_datetime }} &#183;
+    <strong>Updated:</strong>
+    {{ image.updated_at|do_datetime }}
+  </div>
+
+  <p>
+    <strong>Full size:</strong>
+    <br />
+    <input type="text" readonly="readonly" value="{{ image.get_url() }}" onclick="$(this).select();" class="input-xxxlarge form_field" />
+  </p>
+
+  <p>
+    <strong>500x500 px:</strong>
+    <br />
+    <input type="text" readonly="readonly" value="{{ image.get_url(500) }}" onclick="$(this).select();" class="input-xxxlarge form_field" />
+  </p>
+
+  <p>
+    <strong>400x400 px:</strong>
+    <br />
+    <input type="text" readonly="readonly" value="{{ image.get_url(400) }}" onclick="$(this).select();" class="input-xxxlarge form_field" />
+  </p>
+
+  <p>
+    <strong>300x300 px:</strong>
+    <br />
+    <input type="text" readonly="readonly" value="{{ image.get_url(300) }}" onclick="$(this).select();" class="input-xxxlarge form_field" />
+  </p>
+
+  <p>
+    <strong>200x200 px:</strong>
+    <br />
+    <input type="text" readonly="readonly" value="{{ image.get_url(200) }}" onclick="$(this).select();" class="input-xxxlarge form_field" />
+  </p>
+
+  <p>
+    <strong>100x100 px:</strong>
+    <br />
+    <input type="text" readonly="readonly" value="{{ image.get_url(100) }}" onclick="$(this).select();" class="input-xxxlarge form_field" />
+  </p>
+
+  {% if context.is_admin %}
+    <div class="btn-group">
+      <a class="btn btn-primary" href="/images">back</a>
+      {% if image.is_owned(context.user) %}
+        <a class="btn" href="/images/edit/{{ image.id }}">edit</a>
+        <a class="btn btn-danger" href="/images/del/{{ image.id }}" onclick="return confirm('sure?');">del</a>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}

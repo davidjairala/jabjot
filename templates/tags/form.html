@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if method == "edit" %}
+    Edit Tag -
+  {% else %}
+    New Tag -
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>
+      <a href="/tags">Tags</a> -
+      {% if method == "edit" %}
+        Edit
+      {% else %}
+        New
+      {% endif %}
+    </h1>
+  </div>
+
+  {% if method == "edit" %}
+    <form method="post" action="/tags/{{ method }}/{{ tag.id }}">
+  {% else %}
+    <form method="post" action="/tags/{{ method }}">
+  {% endif %}
+    <p>
+      Name:<br />
+      <input type="text" name="tag[name]" value="{{ tag.name }}" class="input-xxxlarge" />
+    </p>
+
+    <p>
+      {% if method == "edit" %}
+        <input type="hidden" name="tag_id" value="{{ tag.id }}" />
+        <input type="submit" value="Edit" class="btn btn-primary" />
+      {% else %}
+        <input type="submit" value="Create" class="btn btn-primary" />
+      {% endif %}
+    </p>
+  </form>
+{% endblock %}

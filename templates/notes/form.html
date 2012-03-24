@@ -1,0 +1,123 @@
+{% if bookmarklet %}
+  {% extends "base_simple.html" %}
+{% else %}
+  {% extends "base.html" %}
+{% endif %}
+
+{% block title %}
+  {% if method == "edit" %}
+    Edit Note -
+  {% else %}
+    New Note -
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if not bookmarklet %}
+    <div class="page-header">
+      <h1>
+        <a href="/notes">Notes</a> -
+        {% if method == "edit" %}
+          Edit
+        {% else %}
+          New
+        {% endif %}
+      </h1>
+    </div>
+  {% else %}
+    <h4>
+      <a href="/notes">Notes</a> -
+      {% if method == "edit" %}
+        Edit
+      {% else %}
+        New
+      {% endif %}
+    </h4>
+  {% endif %}
+
+  {% if method == "edit" %}
+    <form method="post" action="/notes/{{ method }}/{{ note.id }}">
+  {% else %}
+    <form method="post" action="/notes/{{ method }}">
+  {% endif %}
+    <p>
+      Kind:<br />
+      <select name="note[kind]" id="note_kind">
+        <option value="note" {% if note.kind == "note" %}selected="selected" {% endif %}>Note</option>
+        <option value="todo" {% if note.kind == "todo" %}selected="selected" {% endif %}>To-Do</option>
+        <option value="bookmark" {% if note.kind == "bookmark" %}selected="selected" {% endif %}>Bookmark</option>
+      </select>
+    </p>
+
+    <p>
+      Title:<br />
+      <input type="text" id="note_title" class="form_field {% if bookmarklet %}input-xlarge{% else %}input-xxxlarge{% endif %}" name="note[title]" value="{{ note.title }}" />
+    </p>
+
+    <p id="cont_url" class="note_cont {% if not bookmarklet %}force-hide{% endif %}">
+      URL:<br />
+      <input type="text" class="form_field {% if bookmarklet %}input-xlarge{% else %}input-xxxlarge{% endif %}" name="note[url]" value="{{ note.url }}" />
+    </p>
+
+    <p id="cont_done" class="note_cont">
+      Done:<br />
+      <select name="note[done]">
+        <option value="no" {% if not note.done %}selected="selected"{% endif %}>No</option>
+        <option value="yes" {% if note.done %}selected="selected"{% endif %}>Yes</option>
+      </select>
+    </p>
+
+    <p>
+      Description:<br />
+      <textarea class="form_field {% if bookmarklet %}input-textarea-small{% else %}input-textarea{% endif %}" name="note[content]">{{ note.content }}</textarea>
+    </p>
+
+    <p>
+      Tags:<br />
+      <input class="form_field {% if bookmarklet %}input-xlarge{% else %}input-xxxlarge{% endif %}" type="text" id="note_tags" name="note[tags]" value="{{ note.tags }}" />
+    </p>
+
+    <p>
+      Private:<br />
+      <select name="note[private]" class="form_field">
+        <option value="private" {% if note.private %}selected="selected" {% endif %}>Private</option>
+        <option value="public" {% if not note.private %}selected="selected" {% endif %}>Public</option>
+      </select>
+    </p>
+
+    <p>
+      {% if method == "edit" %}
+        <input type="hidden" name="note_id" value="{{ note.id }}" />
+        <input type="submit" value="Edit" class="btn btn-primary" />
+      {% else %}
+        <input type="submit" value="Create" class="btn btn-primary" />
+      {% endif %}
+      {% if bookmarklet %}
+        <input type="hidden" name="bookmarklet" value="1" />
+      {% endif %}
+    </p>
+  </form>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      setInterval(function() {
+        checkKind();
+      }, 500);
+
+      $("#note_title").focus();
+
+      $("#note_tags").autocomplete("/notes/ac", {
+        width: 300,
+        selectFirst: false,
+        multiple: true,
+        delay: 10
+      });
+
+      {% if method == "edit" %}
+        setSection('notes_edit');
+      {% else %}
+        setSection('notes_new');
+      {% endif %}
+    });
+  </script>
+{% endblock %}

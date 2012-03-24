@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+  API - My Apps -
+{% endblock %}
+
+{% block content %}
+  <div class="btn-group pull-right">
+    <a class="btn btn-primary" href="/api/register">Register App</a>
+  </div>
+
+  <div class="page-header">
+    <h1>
+      <a href="/api">API</a>
+    </h1>
+  </div>
+
+  <h2>
+    My Apps
+  </h2>
+
+  {% if apps %}
+    {% for app in apps %}
+      <div class="well">
+        <h3>
+          {{ app.name }}
+        </h3>
+        <div>
+          <strong>App Key:</strong>
+          {{ app.key }}
+        </div>
+        <div>
+          <a href="{{ app.url }}" target="_blank">{{ app.url }}</a>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-primary btn-mini" href="/api/apps/edit/{{ app.id }}">edit</a>
+          <a class="btn btn-danger btn-mini" href="/api/apps/del/{{ app.id }}" onclick="return confirm('Sure?');">delete</a>
+        </div>
+      </div>
+      <br />
+    {% endfor %}
+  {% else %}
+    <p class="error">
+      You haven't registered any apps yet.
+    </p>
+  {% endif %}
+{% endblock %}
